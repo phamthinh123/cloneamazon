@@ -1,11 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import "./Checkout.css";
 import CheckoutProduct from "./CheckoutProduct.js";
 import SubTotal from "./SubTotal";
-import { useStateValue } from "./StateProvider";
+// import { useStateValue } from "./StateProvider";
 
 function Checkout(props) {
-  const [{ basket }, dispatch] = useStateValue();
+  // const [{ basket }, dispatch] = useStateValue();
+  const basket = useSelector((state) => state.basket);
   return (
     <div className="checkout">
       <div className="checkout__left">
@@ -17,11 +19,12 @@ function Checkout(props) {
           <h2 className="checkout__title">Your Shopping Basket</h2>
           {basket.map((i) => (
             <CheckoutProduct
-              id={i.id}
-              title={i.title}
-              price={i.price}
-              rating={i.rating}
-              pic={i.pic}
+              id={i.product.id}
+              title={i.product.title}
+              price={i.product.price}
+              rating={i.product.rating}
+              pic={i.product.pic}
+              quantity={i.quantity}
               hiddenButton={true}
             />
           ))}

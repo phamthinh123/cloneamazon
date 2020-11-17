@@ -1,38 +1,55 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { auth } from "./firebase";
-import { useHistory } from "react-router-dom";
-function Login(props) {
-  const history = useHistory();
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+import { Link, useHistory } from "react-router-dom";
 
-  const signout = (e) => {
-    e.preventDefault();
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((user) => {
-        if (user) {
-          history.push("/");
-        }
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-  const signin = (e) => {
-    e.preventDefault();
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => {
-        if (user) {
-          history.push("/");
-        }
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
+import * as yup from "yup";
+import { useFormik } from "formik";
+
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+
+const validationSchema = yup.object({
+  email: yup
+    .string("Enter your email")
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string("Enter your password")
+    .min(6, "Password should be of minimum 6 characters length")
+    .required("Password is required"),
+});
+
+const Login = () => {
+  const history = useHistory();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      await auth
+        .signInWithEmailAndPassword(values.email, values.password)
+        .then((user) => {
+          if (user) {
+            let currentUser = auth.currentUser;
+            console.log(currentUser);
+            if (currentUser.emailVerified) {
+              history.push("/");
+              console.log(user, currentUser.emailVerified);
+            } else {
+              currentUser.sendEmailVerification();
+              auth.signOut();
+              alert("Please verified email");
+            }
+          }
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+  });
 
   return (
     <div className="login">
@@ -40,42 +57,55 @@ function Login(props) {
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/1024px-Amazon_logo.svg.png"
         className="login__pic"
       ></img>
-      <form className="login__form">
-        <h1 className="login__title">Sign in</h1>
-        <label for="email" className="login__label">
-          E-mail
-        </label>
-        <input
-          type="email"
-          className="login__input"
+      <form onSubmit={formik.handleSubmit} className="login__form">
+        <Typography variant="h5" component="h2" className="login__title">
+          Sign in
+        </Typography>
+        <TextField
+          fullWidth
           id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          label="Email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
         />
-        <label for="pass" className="login__label">
-          Password
-        </label>
-        <input
+        <TextField
+          fullWidth
+          id="password"
+          name="password"
+          label="Password"
           type="password"
-          id="pass"
-          className="login__input"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
         />
-        <button className="login__signin" type="submit" onClick={signin}>
+
+        <button
+          className="login__signin"
+          type="submit"
+          disabled={formik.isSubmitting}
+        >
           Sign in
         </button>
+
         <p className="login__text">
           By signing-in you agree to Amazon's Conditions of Use & Sale. Please
-          see our Privacy Notice, our Cookies Notice and our Interest-Based Ads
-          Notice
+          // see our Privacy Notice, our Cookies Notice and our Interest-Based
+          Ads
         </p>
-        <button className="login__signup" type="submit" onClick={signout}>
+
+        <Link className="login__signup" to="./signup">
           Create your Amazon Account
-        </button>
+        </Link>
+        <Link className="login__recovery" to="./recovery">
+          Forgot your password ?
+        </Link>
       </form>
     </div>
   );
-}
+};
 
 export default Login;

@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from "react";
 import "./Payment.css";
 
-import { useStateValue } from "./StateProvider";
+// import { useStateValue } from "./StateProvider";
 import CheckoutProduct from "./CheckoutProduct";
 import CurrencyFormat from "react-currency-format";
 import { total } from "./reducer";
 import { Link, useHistory } from "react-router-dom";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { db } from "./firebase";
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "./actions";
 
 function Payment(props) {
-  const [{ basket, user }, dispatch] = useStateValue();
+  // const [{ user }] = useStateValue();
+  const dispatch = useDispatch();
+  const basket = useSelector((state) => state.basket);
+  const user = useSelector((state) => state.user);
   const stripe = useStripe();
   const elements = useElements();
   const history = useHistory();
 
   const [disabled, setDisabled] = useState(false);
-
+  const [phone, setPhone] = useState("");
+  db.collection("users")
+    .doc(user?.uid)
+    .onSnapshot((snapshot) => setPhone(snapshot.data().phone));
   const change = (e) => {
     setDisabled(e.empty);
   };
@@ -33,10 +41,6 @@ function Payment(props) {
       type: "card",
       card: cardElement,
     });
-    console.log(paymentMethod);
-    dispatch({
-      type: "EMPTY_BASKET",
-    });
 
     db.collection("users")
       .doc(user?.uid)
@@ -46,6 +50,8 @@ function Payment(props) {
         amount: total(basket),
         created: paymentMethod.created,
       });
+
+    dispatch(actions.emptyBasket());
     history.push("/orders");
   };
   return (
@@ -56,8 +62,9 @@ function Payment(props) {
           <h3 className="payment__address">Delivery Address</h3>
         </div>
         <div className="payment__right">
+          <p>{user?.displayName}</p>
           <p>{user?.email}</p>
-          <p>123 Le Chan, Hai Phong</p>
+          <p>{phone}</p>
         </div>
       </div>
       <div className="payment__row">
@@ -67,11 +74,12 @@ function Payment(props) {
         <div className="payment__right">
           {basket.map((i) => (
             <CheckoutProduct
-              id={i.id}
-              title={i.title}
-              price={i.price}
-              rating={i.rating}
-              pic={i.pic}
+              id={i.product.id}
+              title={i.product.title}
+              price={i.product.price}
+              rating={i.product.rating}
+              pic={i.product.pic}
+              quantity={i.quantity}
             />
           ))}
         </div>
@@ -110,7 +118,7 @@ function Payment(props) {
                   <Link to="/payment">
                     <button
                       type="submit"
-                      disabled={!stripe}
+                      disabled={!stripe || disabled || !user}
                       className="subtotal__button1"
                       onClick={handleSubmit}
                     >

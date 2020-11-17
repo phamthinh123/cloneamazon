@@ -5,9 +5,10 @@ import { useStateValue } from "./StateProvider";
 import CheckoutProduct from "./CheckoutProduct";
 import CurrencyFormat from "react-currency-format";
 import { db } from "./firebase";
+import { useSelector } from "react-redux";
 
 function Orders(props) {
-  const [{ basket, user }, dispatch] = useStateValue();
+  const user = useSelector((state) => state.user);
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     if (user) {
@@ -41,10 +42,11 @@ function Orders(props) {
           {order.data.basket?.map((i) => (
             <CheckoutProduct
               id={i.id}
-              title={i.title}
-              price={i.price}
-              rating={i.rating}
-              pic={i.pic}
+              title={i.product.title}
+              price={i.product.price}
+              rating={i.product.rating}
+              pic={i.product.pic}
+              quantity={i.quantity}
             />
           ))}
           <CurrencyFormat

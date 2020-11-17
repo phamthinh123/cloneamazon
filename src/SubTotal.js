@@ -1,12 +1,15 @@
 import React from "react";
 import "./SubTotal.css";
 import CurrencyFormat from "react-currency-format";
-import { useStateValue } from "./StateProvider";
+// import { useStateValue } from "./StateProvider";
 import { total } from "./reducer";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function SubTotal(props) {
-  const [{ basket }, dispatch] = useStateValue();
+  // const [{ basket }, dispatch] = useStateValue();
+  const basket = useSelector((state) => state.basket);
+  const user = useSelector((state) => state.user);
   return (
     <div className="subtotal">
       <CurrencyFormat
@@ -21,7 +24,10 @@ function SubTotal(props) {
             </div>
 
             <Link to="/payment">
-              <button className="subtotal__button" disabled={!basket.length}>
+              <button
+                className="subtotal__button"
+                disabled={!basket.length || !user}
+              >
                 Proceed to Checkout
               </button>
             </Link>
