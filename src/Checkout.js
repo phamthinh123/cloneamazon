@@ -8,6 +8,7 @@ import SubTotal from "./SubTotal";
 function Checkout(props) {
   // const [{ basket }, dispatch] = useStateValue();
   const basket = useSelector((state) => state.basket);
+  console.log(basket);
   return (
     <div className="checkout">
       <div className="checkout__left">
@@ -25,6 +26,8 @@ function Checkout(props) {
               rating={i.product.rating}
               pic={i.product.pic}
               quantity={i.quantity}
+              size={i.product.size}
+              des={i.product.des}
               hiddenButton={true}
             />
           ))}

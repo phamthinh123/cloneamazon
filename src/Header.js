@@ -9,7 +9,7 @@ import { auth } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./actions";
 import queryString from "query-string";
-
+import Badge from "@material-ui/core/Badge";
 function Header() {
   const basket = useSelector((state) => state.basket);
   const user = useSelector((state) => state.user);
@@ -18,46 +18,58 @@ function Header() {
   const sort = useSelector((state) => state.sort);
   const filter = useSelector((state) => state.filter);
   const select = useSelector((state) => state.select);
-  console.log(select);
+  const number = useSelector((state) => state.number);
+
   useEffect(() => {
     const fetch = async () => {
       if (select.category != "" && select.rating != "") {
         const stringified2 = queryString.stringify(sort);
         const stringified3 = queryString.stringify(select);
+        const stringified4 = queryString.stringify(number);
         dispatch(
           actions.fetchProductsSearch(
             query,
             stringified2,
             filter._page,
-            stringified3
+            stringified3,
+            stringified4
           )
         );
       } else if (select.category != "" && select.rating == "") {
         const stringified2 = queryString.stringify(sort);
-
+        const stringified4 = queryString.stringify(number);
         dispatch(
           actions.fetchProductsSearch(
             query,
             stringified2,
             filter._page,
-            `category=${select.category}`
+            `category=${select.category}`,
+            stringified4
           )
         );
       } else if (select.category == "" && select.rating != "") {
         const stringified2 = queryString.stringify(sort);
-
+        const stringified4 = queryString.stringify(number);
         dispatch(
           actions.fetchProductsSearch(
             query,
             stringified2,
             filter._page,
-            `rating=${select.rating}`
+            `rating=${select.rating}`,
+            stringified4
           )
         );
       } else {
         const stringified2 = queryString.stringify(sort);
+        const stringified4 = queryString.stringify(number);
         dispatch(
-          actions.fetchProductsSearch(query, stringified2, filter._page, null)
+          actions.fetchProductsSearch(
+            query,
+            stringified2,
+            filter._page,
+            null,
+            stringified4
+          )
         );
       }
     };
@@ -101,14 +113,16 @@ function Header() {
             <span className="header__optionlinetwo">& Orders</span>
           </div>
         </Link>
-        <div className="header__option">
-          <span className="header__optionlineone">Your</span>
-          <span className="header__optionlinetwo">Prime</span>
-        </div>
+
         <Link to="/checkout">
           <div className="header__basket">
-            <ShoppingBasketIcon />
-            <span className="header__basketlinetwo">{basket?.length}</span>
+            <Badge
+              badgeContent={basket?.length ? basket?.length : "0"}
+              color="secondary"
+            >
+              <ShoppingBasketIcon />
+            </Badge>
+            {/* <span className="header__basketlinetwo">{basket?.length}</span> */}
           </div>
         </Link>
       </div>

@@ -23,6 +23,7 @@ export const fetchProductsRequest = () => {
     return axios
       .get(`http://localhost:3004/products`)
       .then((res) => {
+        console.log(res);
         dispatch(fetchProductsSuccess(res.data));
       })
       .catch((err) => {
@@ -42,11 +43,14 @@ export const fetchProductsPaginationFailed = (err) => {
     err,
   };
 };
-export const fetchProductsPagination = (value, value2, value3) => {
+export const fetchProductsPagination = (value, value2, value3, value5) => {
   return (dispatch) => {
     return axios
-      .get(`http://localhost:3004/products?${value}&${value2}&${value3}`)
+      .get(
+        `http://localhost:3004/products?${value}&${value2}&${value3}&${value5}`
+      )
       .then((res) => {
+        dispatch(setLengthData(res.headers["x-total-count"]));
         dispatch(fetchProductsPaginationSuccess(res.data));
       })
       .catch((err) => {
@@ -55,13 +59,14 @@ export const fetchProductsPagination = (value, value2, value3) => {
   };
 };
 
-export const fetchProductsSearch = (value, value2, value3, value4) => {
+export const fetchProductsSearch = (value, value2, value3, value4, value5) => {
   return (dispatch) => {
     return axios
       .get(
-        `http://localhost:3004/products?q=${value}&_limit=6&_page=${value3}&${value2}&${value4}`
+        `http://localhost:3004/products?title_like=${value}&_limit=9&_page=${value3}&${value2}&${value4}&${value5}`
       )
       .then((res) => {
+        dispatch(setLengthData(res.headers["x-total-count"]));
         dispatch(fetchProductsPaginationSuccess(res.data));
       })
       .catch((err) => {
@@ -69,13 +74,14 @@ export const fetchProductsSearch = (value, value2, value3, value4) => {
       });
   };
 };
-export const fetchProductsSort = (value, value2, value3, value4) => {
+export const fetchProductsSort = (value, value2, value3, value4, value5) => {
   return (dispatch) => {
     return axios
       .get(
-        `http://localhost:3004/products?${value}&_limit=6&_page=${value2}&title_like=${value3}&${value4}`
+        `http://localhost:3004/products?${value}&_limit=9&_page=${value2}&title_like=${value3}&${value4}&${value5}`
       )
       .then((res) => {
+        dispatch(setLengthData(res.headers["x-total-count"]));
         dispatch(fetchProductsPaginationSuccess(res.data));
       })
       .catch((err) => {
@@ -83,12 +89,41 @@ export const fetchProductsSort = (value, value2, value3, value4) => {
       });
   };
 };
-export const fetchProductsSelect = (value, value2, value3, value4) => {
+export const fetchProductsSelect = (value, value2, value3, value4, value5) => {
   return (dispatch) => {
     return axios
       .get(
-        `http://localhost:3004/products?${value}&_limit=6&_page=${value2}&title_like=${value3}&${value4}`
+        `http://localhost:3004/products?${value}&_limit=9&_page=${value2}&title_like=${value3}&${value4}&${value5}`
       )
+      .then((res) => {
+        dispatch(setLengthData(res.headers["x-total-count"]));
+        dispatch(fetchProductsPaginationSuccess(res.data));
+      })
+      .catch((err) => {
+        dispatch(fetchProductsPaginationFailed(err));
+      });
+  };
+};
+export const fetchProductsNumber = (value, value2, value3, value4, value5) => {
+  return (dispatch) => {
+    return axios
+      .get(
+        `http://localhost:3004/products?${value}&_limit=9&_page=${value2}&title_like=${value3}&${value4}&${value5}`
+      )
+      .then((res) => {
+        dispatch(setLengthData(res.headers["x-total-count"]));
+        dispatch(fetchProductsPaginationSuccess(res.data));
+      })
+      .catch((err) => {
+        dispatch(fetchProductsPaginationFailed(err));
+      });
+  };
+};
+
+export const fetchProductById = (id) => {
+  return (dispatch) => {
+    return axios
+      .get(`http://localhost:3004/products/${id}`)
       .then((res) => {
         dispatch(fetchProductsPaginationSuccess(res.data));
       })
@@ -105,17 +140,19 @@ export const addToBasket = (item, quantity) => {
     quantity,
   };
 };
-export const removeFromBasket = (id) => {
+export const removeFromBasket = (id, size) => {
   return {
     type: "REMOVE_FROM_BASKET",
     id,
+    size,
   };
 };
-export const updateQuantityBasket = (id, quantity) => {
+export const updateQuantityBasket = (id, quantity, size) => {
   return {
     type: "UPDATE_QUANTITY_BASKET",
     id,
     quantity,
+    size,
   };
 };
 export const emptyBasket = () => {
@@ -160,6 +197,18 @@ export const setSort = (value) => {
 export const setSelect = (value) => {
   return {
     type: "SET_SELECT",
+    value,
+  };
+};
+export const setNumber = (value) => {
+  return {
+    type: "SET_NUMBER",
+    value,
+  };
+};
+export const setLengthData = (value) => {
+  return {
+    type: "SET_LENGTH_DATA",
     value,
   };
 };

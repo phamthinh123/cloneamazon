@@ -8,3 +8,20 @@
   top:0;
   z-index: 99;
 }
+a:visited{
+  color: black !important;
+}
+a{
+  color: black !important;
+  
+}
+a:active{
+  color: black !important;
+}
+a:hover{
+  user-select: none !important;
+  cursor:  pointer !important;
+}
+h2,h3,h4{
+  font-weight: normal !important;
+}

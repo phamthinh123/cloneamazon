@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import "./Login.css";
 import { auth } from "./firebase";
 import { Link, useHistory } from "react-router-dom";
-
 import * as yup from "yup";
 import { useFormik } from "formik";
-
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-
 const validationSchema = yup.object({
   email: yup
     .string("Enter your email")
@@ -19,7 +16,6 @@ const validationSchema = yup.object({
     .min(6, "Password should be of minimum 6 characters length")
     .required("Password is required"),
 });
-
 const Login = () => {
   const history = useHistory();
   const formik = useFormik({
@@ -34,7 +30,6 @@ const Login = () => {
         .then((user) => {
           if (user) {
             let currentUser = auth.currentUser;
-            console.log(currentUser);
             if (currentUser.emailVerified) {
               history.push("/");
               console.log(user, currentUser.emailVerified);

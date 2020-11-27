@@ -10,9 +10,11 @@ import {
   useHistory,
 } from "react-router-dom";
 import Checkout from "./Checkout";
+import ProductDetail from "./ProductDetail";
 import Payment from "./Payment";
 import Recovery from "./Recovery";
 import Login from "./Login";
+import Footer from "./Footer";
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
 // import { useStateValue } from "./StateProvider";
@@ -34,12 +36,13 @@ const stripePromise = loadStripe(
 function App() {
   const dispatch = useDispatch();
   const history = useHistory();
+
   let loading = useSelector((state) => state.loading);
   useEffect(() => {
     auth.onAuthStateChanged(function (user) {
       if (user && user.emailVerified) {
         // user==currentUser
-        console.log(user, user.emailVerified);
+
         dispatch(actions.setUser(user));
       } else {
         dispatch(actions.setUser(null));
@@ -69,20 +72,29 @@ function App() {
             <Route exact path="/">
               <Header />
               <Home />
+              <Footer />
+            </Route>
+            <Route path="/product/:id">
+              <Header />
+              <ProductDetail />
+              <Footer />
             </Route>
             <Route path="/checkout">
               <Header />
               <Checkout />
+              <Footer />
             </Route>
             <Route path="/orders">
               <Header />
               <Orders />
+              <Footer />
             </Route>
             <Route path="/payment">
               <Header />
               <Elements stripe={stripePromise}>
                 <Payment />
               </Elements>
+              <Footer />
             </Route>
           </Switch>
         </div>

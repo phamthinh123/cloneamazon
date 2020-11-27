@@ -1,8 +1,13 @@
+.home__slider{
+    width: 100%;
+    margin-bottom: -250px;
+  
+   
+  }
 .home__pic{
     width: 100%;
-    z-index: -5;
-    margin-bottom: -150px;
-    mask-image: linear-gradient(180deg,#000,transparent) !important;
+     mask-image: linear-gradient(180deg,black,transparent) !important; 
+
 }
 .home{
     display: flex;
@@ -18,4 +23,25 @@
       align-items: center;
       justify-content: space-between ;
       margin: 10px;
+      z-index: 1;
+  }
+  .home__content{
+      margin:5px 10px;
+      z-index: 1;
+  }
+  
+  .slick-prev:before, .slick-next:before{
+      font-size: 50px !important;
+ 
+      
+  }
+  .slick-prev{
+    left: 0.7% !important;
+    top:30% !important;
+    z-index: 10;
+  }
+  .slick-next{
+    right: 2.7% !important;
+    top:30% !important;
+    z-index: 10;
   }

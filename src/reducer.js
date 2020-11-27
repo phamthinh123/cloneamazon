@@ -21,8 +21,13 @@ export const initialState = {
   filter: {
     title_like: "",
     _page: 1,
-    _limit: 6,
+    _limit: 9,
   },
+  number: {
+    price_gte: 0,
+    price_lte: 9999,
+  },
+  lengthData: 0,
 };
 const option = {
   position: "top-right",
@@ -35,11 +40,15 @@ const option = {
 };
 
 export const reducer = (state = initialState, action) => {
-  let index;
+  let index, index2;
   let newBasket;
+  let filterBasket;
   switch (action.type) {
     case "ADD_TO_BASKET":
-      index = state.basket.findIndex((i) => i.product.id === action.item.id);
+      index = state.basket.findIndex(
+        (i) =>
+          i.product.id === action.item.id && i.product.size === action.item.size
+      );
 
       if (index === -1) {
         newBasket = [
@@ -51,7 +60,7 @@ export const reducer = (state = initialState, action) => {
           ...state.basket.slice(0, index),
           {
             ...state.basket[index],
-            quantity: state.basket[index].quantity + 1,
+            quantity: state.basket[index].quantity + action.quantity,
           },
           ...state.basket.slice(index + 1),
         ];
@@ -64,7 +73,9 @@ export const reducer = (state = initialState, action) => {
         basket: newBasket,
       };
     case "UPDATE_QUANTITY_BASKET":
-      index = state.basket.findIndex((i) => i.product.id === action.id);
+      index = state.basket.findIndex(
+        (i) => i.product.id === action.id && i.product.size === action.size
+      );
 
       if (index === -1) {
         return;
@@ -88,10 +99,12 @@ export const reducer = (state = initialState, action) => {
 
     case "REMOVE_FROM_BASKET":
       newBasket = [...state.basket];
-      index = state.basket.findIndex((i) => i.product.id === action.id);
+      index = state.basket.findIndex(
+        (i) => i.product.id === action.id && i.product.size === action.size
+      );
       newBasket.splice(index, 1);
       toast.dark("Xóa thành công !", option);
-      localStorage.success("basket", JSON.stringify(newBasket));
+      localStorage.setItem("basket", JSON.stringify(newBasket));
       return {
         ...state,
         basket: newBasket,
@@ -161,6 +174,16 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         select: action.value,
+      };
+    case "SET_NUMBER":
+      return {
+        ...state,
+        number: action.value,
+      };
+    case "SET_LENGTH_DATA":
+      return {
+        ...state,
+        lengthData: action.value,
       };
 
     default:

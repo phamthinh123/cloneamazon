@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import "./Signup.css";
-
 import { Link, useHistory } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -27,14 +25,11 @@ const validationSchema = yup.object({
     .string()
     .required("Your phone is required.")
     .matches(isVNPhoneMobile, "Phone number is not valid"),
-
   confirmPassword: yup
     .string("Enter your confirm password")
     .oneOf([yup.ref("password"), null], `Password doesn't match`)
-
     .required("You need to confirm your password."),
 });
-
 const Signup = () => {
   const history = useHistory();
   const formik = useFormik({

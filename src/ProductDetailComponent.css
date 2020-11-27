@@ -1,0 +1,124 @@
+.productdetailcomponent{
+    background-color: white;
+    /* padding: 20px; */
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    }
+    .productdetailcomponent__contentright{
+        flex:0.6;
+        padding: 20px;
+    }
+    .productdetailcomponent__contentleft{
+        flex:0.4;
+        margin:10px 30px 30px 10px;
+        padding: 20px;  
+    }
+    .productdetailcomponent__rating{
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .productdetailcomponent__price{
+        font-weight: bold;
+       
+        padding:15px;
+        font-size: 30px;
+        background-color:ghostwhite;
+        margin-bottom: 15px;
+        }
+        .productdetailcomponent__select{
+            font-size: 17px;
+            color:gray;
+          margin-bottom: 10px;
+         
+        }
+      
+        .productdetailcomponent__select span{
+           font-weight: bold;
+            color:black;
+        }
+    .productdetailcomponent__quantity{
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        
+    }
+    .productdetailcomponent__size{
+        
+       
+   padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height:35px;
+    background-color: white;
+    border:1px solid rgba(0,0,0,0.8);
+    font-weight: bold;
+    }
+    .productdetailcomponent__plus,.productdetailcomponent__minius{
+            
+            border: 1px solid black;
+    }
+    .productdetailcomponent__value{
+        border: 1px solid black;
+        padding: 2px 10px;
+        
+    }
+   
+    .productdetailcomponent__des{
+   font-weight: normal;
+        margin-bottom:15px;
+        }
+   
+  
+     .productdetailcomponent__pic{
+margin-top: 5px;
+    display: flex;
+   width:100%;
+ align-items: center;
+ justify-content: space-between;
+
+    margin-bottom: 15px;
+   
+  
+    
+    }
+ 
+      
+
+    .pic__size{
+       width: 25%;
+
+ box-sizing: border-box;
+    
+    }
+    .pic__active{
+       border: 1px solid black;
+       box-sizing: border-box;
+    } 
+    .productdetailcomponent__option{
+        display: flex;
+        align-items: center;
+        
+    }
+    .productdetailcomponent__button{
+    cursor: pointer;
+    width: fit-content;
+    background-color: #f0c14b;
+    outline: none;
+    border: 1px solid rgba(0, 0,0,0.2);
+    padding: 15px 40px;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 17px;
+    
+    
+    }
+    .productdetailcomponent__option{
+        display: flex;
+        align-items: flex-start;
+    
+       
+    }

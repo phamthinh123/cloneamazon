@@ -47,6 +47,8 @@ function Orders(props) {
               rating={i.product.rating}
               pic={i.product.pic}
               quantity={i.quantity}
+              size={i.product.size}
+              des={i.product.des}
             />
           ))}
           <CurrencyFormat

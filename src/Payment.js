@@ -61,7 +61,7 @@ function Payment(props) {
         <div className="payment__left">
           <h3 className="payment__address">Delivery Address</h3>
         </div>
-        <div className="payment__right">
+        <div className="payment__right payment__one">
           <p>{user?.displayName}</p>
           <p>{user?.email}</p>
           <p>{phone}</p>
@@ -80,6 +80,8 @@ function Payment(props) {
               rating={i.product.rating}
               pic={i.product.pic}
               quantity={i.quantity}
+              size={i.product.size}
+              des={i.product.des}
             />
           ))}
         </div>
