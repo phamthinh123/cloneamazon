@@ -1,33 +1,30 @@
 // json-server --watch db.json --port 3004
 import "./App.css";
-import Header from "./Header";
-import Home from "./Home";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   useHistory,
 } from "react-router-dom";
-import Checkout from "./Checkout";
-import ProductDetail from "./ProductDetail";
-import Payment from "./Payment";
-import Recovery from "./Recovery";
-import Login from "./Login";
-import Footer from "./Footer";
-import { useEffect, useState } from "react";
-import { auth } from "./firebase";
-// import { useStateValue } from "./StateProvider";
+import * as actions from "./redux/actions";
+import Header from "./component/Header";
+import Home from "./component/Home";
+import Footer from "./component/Footer";
+import Login from "./component/Login";
+import Signup from "./component/Signup";
+import Recovery from "./component/Recovery";
+import ProductDetail from "./component/ProductDetail";
+import Kitchen from "./component/Kitchen";
+import Checkout from "./component/Checkout";
+import Payment from "./component/Payment";
+import Orders from "./component/Orders";
+
+import { auth } from "./firebase/firebase";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import Orders from "./Orders";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "./actions";
-import Product from "./Product";
-import { useStateValue } from "./StateProvider";
-import Loading from "./Loading";
 import { ToastContainer } from "react-toastify";
-import Signup from "./Signup";
 
 const stripePromise = loadStripe(
   "pk_test_51Hk6r1ApFJzZC8Cvzt4jOr6MA9ug1eFkV7jlZS0WJGMstNm1oNus12YqRe7a5KmGSggSJk1WaWm8TZt83j37qYM4007Xqdi2YS"
@@ -35,12 +32,10 @@ const stripePromise = loadStripe(
 
 function App() {
   const dispatch = useDispatch();
-  const history = useHistory();
 
-  let loading = useSelector((state) => state.loading);
   useEffect(() => {
     auth.onAuthStateChanged(function (user) {
-      if (user && user.emailVerified) {
+      if (user) {
         // user==currentUser
 
         dispatch(actions.setUser(user));
@@ -55,50 +50,59 @@ function App() {
 
   return (
     <Router>
-      <Loading />
       <ToastContainer style={{ width: "285px" }} />
-      {!loading && (
-        <div className="App">
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/recovery">
-              <Recovery />
-            </Route>
-            <Route exact path="/">
-              <Header />
-              <Home />
-              <Footer />
-            </Route>
-            <Route path="/product/:id">
-              <Header />
-              <ProductDetail />
-              <Footer />
-            </Route>
-            <Route path="/checkout">
-              <Header />
-              <Checkout />
-              <Footer />
-            </Route>
-            <Route path="/orders">
-              <Header />
-              <Orders />
-              <Footer />
-            </Route>
-            <Route path="/payment">
-              <Header />
-              <Elements stripe={stripePromise}>
-                <Payment />
-              </Elements>
-              <Footer />
-            </Route>
-          </Switch>
-        </div>
-      )}
+
+      <div className="App">
+        <Switch>
+          <Route path="/login">
+            <Header />
+            <Login />
+            <Footer />
+          </Route>
+          <Route path="/signup">
+            <Header />
+            <Signup />
+            <Footer />
+          </Route>
+          <Route path="/recovery">
+            <Header />
+            <Recovery />
+            <Footer />
+          </Route>
+          <Route exact path="/">
+            <Header />
+            <Home />
+            <Footer />
+          </Route>
+          <Route path="/product/:id">
+            <Header />
+            <ProductDetail />
+            <Footer />
+          </Route>
+          <Route path="/checkout">
+            <Header />
+            <Checkout />
+            <Footer />
+          </Route>
+          <Route path="/category/:category">
+            <Header />
+            <Kitchen />
+            <Footer />
+          </Route>
+          <Route path="/orders">
+            <Header />
+            <Orders />
+            <Footer />
+          </Route>
+          <Route path="/payment">
+            <Header />
+            <Elements stripe={stripePromise}>
+              <Payment />
+            </Elements>
+            <Footer />
+          </Route>
+        </Switch>
+      </div>
     </Router>
   );
 }

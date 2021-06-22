@@ -1,0 +1,51 @@
+.home__slider{
+    width: 100%;
+    margin-bottom: -10px;
+    height: 100%;
+    object-fit: cover;
+   
+  }
+.home__pic{
+    width:100%;
+height: auto; 
+    
+   
+}
+
+
+
+
+
+
+
+
+
+
+
+.home{
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    flex-direction: column;
+    
+  }
+  
+  
+  .slick-prev:before, .slick-next:before{
+      font-size: 50px !important;
+    color:black !important;
+      
+  }
+  .slick-prev{
+    left: -3% !important;
+    top:38% !important;
+    z-index: 10;
+  }
+  .slick-next{
+    right: -0.7% !important;
+    top:38% !important;
+    z-index: 10;
+    
+  }

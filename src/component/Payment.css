@@ -1,0 +1,60 @@
+.payment{
+
+
+background-color: white;
+
+width: 100%;
+
+
+}
+.payment__pic{
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+    }
+.payment__title{
+    position: absolute;
+    z-index: 999;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 30%;
+    text-align: center;
+    color:white;
+    font-weight:800 !important;
+    
+}
+
+
+
+
+
+
+.payment__form{
+    padding: 30px;
+    background-color: white;
+    border:1px solid rgba(0,0,0,0.2);
+    margin-top: 20px;
+    width:100%;
+  
+    }
+    .payment__total{
+        
+        font-size: 20px;
+    }
+    .payment__total span{
+        font-weight: bold;
+        }
+        .payment__button{
+            cursor: pointer;
+            margin-top: 10px;
+            background-color: orange;
+            outline: none;
+            border: 1px solid rgba(0, 0,0,0.2);
+            padding: 10px 0px;
+            font-weight: bold;
+            border-radius: 5px;
+            width: 100%;
+            color: white;
+            font-size: 22px;
+        }

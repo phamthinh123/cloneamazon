@@ -1,0 +1,68 @@
+.basket{
+    width:460px;
+}
+.basket__pic{
+   
+    object-fit: cover;
+    width: 100%;
+    }
+    .basket__title{
+        
+        
+        position: absolute;
+        z-index: 999;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: 5%;
+        text-align: center;
+        color:white;
+        font-weight:800 !important;
+      
+    }
+    .basket__button{
+        cursor: pointer;
+        margin-top: 10px;
+        background-color: orange;
+        outline: none;
+        border: 1px solid rgba(0, 0,0,0.2);
+        padding: 13px 18px;
+        font-weight: bold;
+        border-radius: 5px;
+        width: 100%;
+        color: white;
+        font-size: 18px;
+    }
+    .basket__button1{
+        cursor: pointer;
+        
+        background-color: lightgray;
+        outline: none;
+        border: 1px solid rgba(0, 0,0,0.2);
+        padding: 12px 20px;
+        font-weight: bold;
+        border-radius: 5px;
+        width: 100%;
+        color:white;
+        margin-top:12px;
+        margin-bottom: 10px;
+    }
+    .basket__button2{
+        cursor: pointer;
+        
+        background-color: orange;
+        outline: none;
+        border: 1px solid rgba(0, 0,0,0.2);
+        padding: 12px 20px;
+        font-weight: bold;
+        border-radius: 5px;
+        width: 100%;
+        color:white;
+      
+    }
+   
+    .basket__emptyicon{
+        margin-top: 30px !important;
+        font-size: 120px !important;
+        color:lightgray !important;
+    }
